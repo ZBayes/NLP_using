@@ -27,5 +27,3 @@ content = reader_tool.source_read("../data/THUCNews/体育/1.txt")
 # print(s.sentiments)
 # print(s.keywords(5))
 # print(s.summary(5))
-
-# 
