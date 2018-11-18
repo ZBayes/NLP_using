@@ -7,6 +7,9 @@ import pandas as pd
 import jieba
 from sklearn.externals import joblib
 from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier
+from sklearn.neural_network import MLPClassifier
 import sys
 
 # 数据加载和分块
@@ -25,7 +28,7 @@ def loadfile(is_save=False, test_size=0.2):
     y = np.concatenate((np.ones(len(pos)), np.zeros(len(neg))))
 
     x_train, x_test, y_train, y_test = train_test_split(
-        np.concatenate((pos['words'], neg['words'])), y, test_size=0.2)
+        np.concatenate((pos['words'], neg['words'])), y, test_size=0.2,random_state=20)
 
     if is_save:
         np.save('../../data/shopping_review/y_train.npy', y_train)
@@ -49,7 +52,7 @@ def buildWordVector(text, size, imdb_w2v):
 
 
 # 计算词向量
-def get_train_vecs(x_train, x_test, n_dim=500, min_count=10, epochs=15):
+def get_train_vecs(x_train, x_test, n_dim=300, min_count=10, epochs=15):
     # Initialize model and build vocab
     imdb_w2v = Word2Vec(size=n_dim, min_count=min_count)
     imdb_w2v.build_vocab(x_train)
@@ -75,7 +78,8 @@ def get_train_vecs(x_train, x_test, n_dim=500, min_count=10, epochs=15):
 
 
 def svm_train(train_vecs, y_train, test_vecs, y_test):
-    clf = SVC(kernel='rbf', verbose=True, shrinking=False)
+    # clf = SVC(kernel='rbf', verbose=True, shrinking=False, C=0.01)
+    clf = MLPClassifier(hidden_layer_sizes=(100,250,100,50), verbose=True, learning_rate_init=1e-4, tol=1e-10)
     clf.fit(train_vecs, y_train)
     joblib.dump(clf, '../../data/shopping_review/svm_model.pkl')
     print(clf.score(test_vecs, y_test))
