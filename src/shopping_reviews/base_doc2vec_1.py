@@ -79,7 +79,7 @@ def get_train_vecs(x_train, x_test, n_dim=300, min_count=10, epochs=15):
 
 def svm_train(train_vecs, y_train, test_vecs, y_test):
     # clf = SVC(kernel='rbf', verbose=True, shrinking=False, C=0.01)
-    clf = MLPClassifier(hidden_layer_sizes=(100,250,100,50), verbose=True, learning_rate_init=1e-4, tol=1e-10)
+    clf = MLPClassifier(hidden_layer_sizes=(300,200,100,20), verbose=True, learning_rate_init=1e-4)
     clf.fit(train_vecs, y_train)
     joblib.dump(clf, '../../data/shopping_review/svm_model.pkl')
     print(clf.score(test_vecs, y_test))
