@@ -6,6 +6,7 @@ Notes:
 
 TODO: **embedding trial stage**  
 [√] basic construct and util  
+[ ] Chinese cleaner tool ([similar english tool](https://github.com/ZBayes/tool_lib/blob/master/text_clean.py))
 [ ] doc2vec trial  
 [ ] BOW trial  
 [ ] word2vec trial  
