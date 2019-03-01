@@ -30,7 +30,7 @@ def loadfile():
 
     x_train, x_test, y_train, y_test = train_test_split(
         np.concatenate((pos['words'], neg['words'])), y, test_size=0.2)
-
+    
     np.save('svm_data/y_train.npy', y_train)
     np.save('svm_data/y_test.npy', y_test)
     return x_train, x_test

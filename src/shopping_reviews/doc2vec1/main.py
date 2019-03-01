@@ -24,6 +24,7 @@ from result_table import res_tab
 # 对每个句子的所有词向量取均值
 
 
+
 def buildWordVector(text, size, imdb_w2v):
     vec = np.zeros(size).reshape((1, size))
     count = 0.
@@ -70,19 +71,19 @@ log.info("word cutting completed")
 y = np.concatenate((np.ones(len(pos)), np.zeros(len(neg))))
 x_train, x_test, y_train, y_test = train_test_split(
     np.concatenate((pos['words'], neg['words'])), y, test_size=0.2, random_state=20)
+print(x_train)
 
+# # word2vec-> mean doc2vec
+# imdb_w2v = Word2Vec(size=N_DIM, min_count=MIN_COUNT)
+# imdb_w2v.build_vocab(x_train)
 
-# word2vec-> mean doc2vec
-imdb_w2v = Word2Vec(size=N_DIM, min_count=MIN_COUNT)
-imdb_w2v.build_vocab(x_train)
+# imdb_w2v.train(x_train, total_examples=len(x_train), epochs=w2v_EPOCH)
 
-imdb_w2v.train(x_train, total_examples=len(x_train), epochs=w2v_EPOCH)
-
-train_vecs = np.concatenate(
-    [buildWordVector(z, N_DIM, imdb_w2v) for z in x_train])
-test_vecs = np.concatenate(
-    [buildWordVector(z, N_DIM, imdb_w2v) for z in x_test])
-log.info("mean doc2vec completed")
+# train_vecs = np.concatenate(
+#     [buildWordVector(z, N_DIM, imdb_w2v) for z in x_train])
+# test_vecs = np.concatenate(
+#     [buildWordVector(z, N_DIM, imdb_w2v) for z in x_test])
+# log.info("mean doc2vec completed")
 
 # 分类模型-ML stage
 log.info("training begin")
